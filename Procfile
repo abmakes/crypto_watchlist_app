@@ -1,0 +1,1 @@
+web: gunicorn satstobits.wsgi --log-file -

@@ -1,0 +1,101 @@
+{% extends "dashboard/layout.html" %}
+
+{% block body %}
+
+  <!-- Market Data -->
+<div class="card text-white bg-success flex-d" style="width: 100%;">
+  <div class="container">
+    <div class="row card-body justify-content-center">
+      <span class="col text-center" id="live-price">Bitcoin-usd: </span>
+      <span class="col-sm text-center" id="total-mcap">Market Cap: </span>
+      <span class="col-sm text-center" id="volume">Bitcoin: </span>
+    </div>    
+  </div>
+</div>
+
+<!-- Chart  -->
+{% comment %} <div class="container flex-d">
+  <div class="row h-50 mw-900" style="height: 400px;">  
+
+    <div class="col">
+        <div id="chartDiv" style="width: 100%; max-width: 1240px; margin: 0px"></div>
+    </div>
+
+  </div>
+</div> {% endcomment %}
+
+  <!-- Modal -->
+  {% if user.is_authenticated %}
+  <div class="modal fade" id="addCoinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add coin to database</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body m-3" id="addCoinDataCheck">
+          ...token not found
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" id="submitCoin">Complete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+<div class="container">
+
+  <div class="row my-2">
+    <div class="col-sm p-2"> 
+      <h2 class="text-light mb-0" data-user="getUserId({{ user.user_id }})">Watchlist: {{ user.username }}</h2>
+    </div>
+
+      <!-- Search bar -->
+      <div class="col-sm p-2 input-group">
+          <input class="form-control" list="results" style="min-width: 115px;" type="search" id="coinSearch" placeholder="Search token..."/>
+          {% csrf_token %} 
+          <datalist class="form-select" id="results">
+              <!-- dropown coinlist  -->
+          </datalist>
+  
+            <button type="button" id="addCoin" class="btn btn-success" data-toggle="modal" data-target="#addCoinModal">Add Coin</button>
+      </div>
+  </div>
+
+
+  <div class="row">    
+    <span class="text-secondary float-right mb-1 px-3 ml-auto" id="last-updated"></span>
+    <div class="table-responsive">
+    
+      <!-- table headings --> 
+      <table id="coinTable" class="table table-hover align-middle text-light my-3">
+        <thead>
+          <tr class="text-secondary">
+            <th class="th sortable text-light" onclick="sortCoins(0)" data-direction="desc" data-name="rank" scope="col">Rank <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16">
+              <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"/>
+            </svg></th>
+            <th class="th sortable" onclick="sortCoins(1)" data-direction="asc" data-name="name" scope="col">Name </th>
+            <th class="th sortable" onclick="sortCoins(2)" data-direction="asc" data-name="currentPrice" scope="col">Price </th>
+            <th class="th sortable" onclick="sortCoins(3)" data-direction="asc" data-name="percChange24h" scope="col">Change%</th>
+            <th class="th sortable" onclick="sortCoins(4)" data-direction="asc" data-name="high24h" scope="col">24h High </th>
+            <th class="th sortable" onclick="sortCoins(5)" data-direction="asc" data-name="low24h"  scope="col">24h Low </th>
+            <th class="th" scope="col">24h Range</th>
+            <th class="th" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="price-list">
+          <!-- table data goes here -->
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

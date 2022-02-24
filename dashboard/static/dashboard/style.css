@@ -1,0 +1,29 @@
+#chartDiv {
+  height: 250px;
+}
+
+@media (min-width: 576px) {
+  #chartDiv {
+    height: 300px;
+  }
+}
+
+@media (min-width: 768px) { 
+
+  #chartDiv {
+    height: 350px;
+  }
+}
+
+@media (min-width: 992px) {
+
+  #chartDiv {
+    height: 400px;
+  }
+}
+
+@media (min-width: 1200px) { 
+  #chartDiv {
+    height: 400px;
+  }
+}  
