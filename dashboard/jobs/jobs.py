@@ -50,21 +50,21 @@ def fetch_schedule():
     df = data.json()
 
   # keys = ["symbol", "name", "current_price", "market_cap_rank", "high_24h", "low_24h", "price_change_percentage_24h", "last_updated"]
-  currentPrice = df[0]["current_price"]
+  # currentPrice = df[0]["current_price"]
   # for key in keys:
   #   btc = df[0][key]
   #   print(btc)
 
   # btc = BtcPrice.objects.get(pk=1)
 
-  requests.post(f"http://127.0.0.1:8000/updatebtc/{currentPrice}")
+  # requests.post(f"http://127.0.0.1:8000/updatebtc/{currentPrice}")
 
   #### use symbols to update top coin list
-  top10 = []
+  # top10 = []
   for coin in df:
     if coin["id"] in currentCoinsList:
-      top10.append(coin["symbol"])
+      # top10.append(coin["symbol"])
       coinUpdateOrCreate(coin)
   
-  print("coins updated")
+  # print("coins updated")
 
