@@ -136,14 +136,14 @@ function addToWatchlist(id) {
 ///// Fetch and update list of coins on Coingecko /////
 
 function getCoinInfo(coinId) {
-  const coinlist = "http://127.0.0.1:8000/coinlist"
+  const coinlist = "https://satstobits.herokuapp.com/coinlist"
   const modalText = document.getElementById("addCoinDataCheck");
   const modalSubmit = document.getElementById("submitCoin");
   modalSubmit.style.display = "display-box";
 
   return new Promise((resolve, reject) => 
     {
-      const dbCoins = "http://127.0.0.1:8000/coins"
+      const dbCoins = "https://satstobits.herokuapp.com/coins"
       ///// Temporary list with to check for duplicates /////
       let dbCoinList = []
       fetch(dbCoins)
@@ -224,7 +224,7 @@ fetch(urlCoin)
     form.append("image", data[0].image)  
 
     const csrftoken = getCookie('csrftoken');
-    const urlPost = "http://127.0.0.1:8000/watchlist"
+    const urlPost = "https://satstobits.herokuapp.com/watchlist"
     fetch(urlPost, {
       method: 'POST',
       mode: 'same-origin', 
@@ -267,10 +267,10 @@ function getData(user_watchlist, order="desc", column="rank") {
   priceList.innerHTML = ""
 
   ///// check current page to filter coins
-  if (currentUrl == "http://127.0.0.1:8000/") {
-    coinsUrl = "http://127.0.0.1:8000/coins";
+  if (currentUrl == "https://satstobits.herokuapp.com/") {
+    coinsUrl = "https://satstobits.herokuapp.com/coins";
   } else {
-    coinsUrl = `http://127.0.0.1:8000/watchlist/${userId}`;
+    coinsUrl = `https://satstobits.herokuapp.com/watchlist/${userId}`;
   }
 
   fetch(coinsUrl)
@@ -367,7 +367,7 @@ function getData(user_watchlist, order="desc", column="rank") {
 function getWatchlistCoins(sort=false) {
 
   const userId = document.getElementById("current-user").dataset.userid
-  let watchlist = `http://127.0.0.1:8000/watchlist/${userId}`
+  let watchlist = `https://satstobits.herokuapp.com/watchlist/${userId}`
   
   return new Promise((resolve, reject) => 
   {
@@ -399,7 +399,7 @@ function getWatchlistCoins(sort=false) {
 ///// Live search text display /////
 
 function showSearch(searched) {
-  const coinlist = "http://127.0.0.1:8000/coinlist"
+  const coinlist = "https://satstobits.herokuapp.com/coinlist"
   coinMenu = document.getElementById("results");
   const search = searched;
   // console.log(search);
