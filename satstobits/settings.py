@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'satstobits.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# import dj_database_url
+import dj_database_url
 
 DATABASES = {
     'default': {
@@ -89,8 +89,8 @@ DATABASES = {
     }
 }
 
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 AUTH_USER_MODEL = "dashboard.User"
 
