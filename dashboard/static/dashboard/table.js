@@ -361,7 +361,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
             </button>
           </td>
           <td class="${chartBtnDisplay}">
-            <button type="button" class="btn btn-sm showChart" data-toggle="modal" data-target="#chartModal" id="ct-${coin.coinId}">Show Chart</button>
+            <button type="button" class="btn btn-sm btn-success showChart" data-toggle="modal" data-target="#chartModal" data-id="ct-${coin.coinId}">Show Chart</button>
           </td>
           `;
       
