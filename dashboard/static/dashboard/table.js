@@ -341,8 +341,10 @@ function getData(user_watchlist=[], order="desc", column="rank") {
 
       let btnDisplay, chartBtnDisplay = "d-none"
       if (userId !== "None") {
-        btnDisplay = "d-block"
-        chartBtnDisplay = "d-block"
+        btnDisplay = "align-middle"
+      }
+      if (window.location.toString().includes("watchlist")) {
+        chartBtnDisplay = "align-middle"
       }
 
       coinPrice.innerHTML = `
