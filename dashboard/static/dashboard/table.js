@@ -342,6 +342,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
       let btnDisplay = "d-block"
       if (userId == "None") {
         btnDisplay = "d-none"
+        chartBtnDisplay = "d-none"
       }
 
       coinPrice.innerHTML = `
@@ -359,7 +360,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
                 </svg>
             </button>
           </td>
-          <td class="${btnDisplay}">
+          <td class="${chartBtnDisplay}">
             <button type="button" class="btn btn-sm showChart" data-toggle="modal" data-target="#chartModal" id="ct-${coin.coinId}">Show Chart</button>
           </td>
           `;
