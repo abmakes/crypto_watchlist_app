@@ -339,7 +339,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
         colour = "text-warning"
       }
 
-      let btnDisplay = "d-block"
+      let btnDisplay, chartBtnDisplay = "d-block"
       if (userId == "None") {
         btnDisplay = "d-none"
         chartBtnDisplay = "d-none"
