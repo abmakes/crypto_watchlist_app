@@ -104,7 +104,9 @@
             <th class="th sortable" onclick="sortCoins(4)" data-direction="asc" data-name="high24h" scope="col">24h High </th>
             <th class="th sortable" onclick="sortCoins(5)" data-direction="asc" data-name="low24h"  scope="col">24h Low </th>
             <th class="th" scope="col">24h Range</th>
+            {% if user.is_authenticated %}
             <th class="th" scope="col"></th>
+            {% endif %}
           </tr>
         </thead>
         <tbody id="price-list">
