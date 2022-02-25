@@ -1,18 +1,68 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-$('#addCoinModal').on('shown.bs.modal', function () {
-  $('#addCoin').trigger('focus')
-  const coinId = document.getElementById("coinSearch").value
-  getCoinInfo(coinId)
-})
+  $('#addCoinModal').on('shown.bs.modal', function () {
+    $('#addCoin').trigger('focus')
+    const coinId = document.getElementById("coinSearch").value
+    getCoinInfo(coinId)
+  })
 
-document.getElementById("coinSearch").addEventListener("keyup", showOption);
-document.getElementById("addCoin").addEventListener("click", addCoinToDb);
+  ////// Check if user is logged in
 
-getMarketOverview();
-getLivePrice();
-getWatchlistCoins(sort=false);
+  const user_id = document.getElementById("current-user").dataset.userid;
+  if (user_id != "None") {
+    document.getElementById("coinSearch").addEventListener("keyup", showOption);
+    document.getElementById("addCoin").addEventListener("click", addCoinToDb);
+  } 
+
+  getWatchlistCoins(sort=false);
+  getMarketOverview();
+  getLivePrice();
 });
+
+
+///// Get latest Btc price on pageload /////
+
+async function getLivePrice() {
+  try {
+    let res = await fetch("https://blockchain.info/ticker");
+    const btcPrice = document.getElementById("live-price")
+
+    if (!res.ok) {
+      throw new Error(`Fetch Error: ${res.status}`);
+    }
+    let priceData = await res.json();
+    // let datetime = new Date();
+    // datetime.toDateString()
+    btcPrice.innerHTML=`Bitcoin-usd: <span class="text-dark mb-0 h5">$${priceData.USD["15m"]}</span>`
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+
+///// Fetch market overview data on pageload /////
+
+async function getMarketOverview() {
+  await fetch(new Request("https://api.livecoinwatch.com/overview"), {
+    method: "POST",
+    headers: new Headers({
+      "content-type": "application/json",
+      "x-api-key": "8e75c599-768b-4348-ab3c-9d0754b570fd",
+    }),
+    body: JSON.stringify({ currency: "USD" }),
+  })
+  .then(res => res.json())
+  .then(data => {
+    const mcapElement = document.getElementById("total-mcap");
+    const volumeElement = document.getElementById("volume");
+    let mcap = data['cap']/1000000000000;
+    let volume = data['volume']/1000000000;
+
+    mcapElement.innerHTML = `Total Market Cap: <span class="text-dark mb-0 h5">$${mcap.toFixed(3)} trillion</span>`
+    volumeElement.innerHTML = `Daily Volume: <span class="text-dark mb-0 h5">$${volume.toFixed(2)} billion</span>`
+  })
+  .catch(err => console.log(err));
+}
 
 ///// Return sorting instrutions for table building function (getData) /////
 ///// Adjust display of sorting headers /////
@@ -54,49 +104,6 @@ async function sortCoins(colId) {
 function showOption(e) {
   const searchTerm = e.target.value;
   showSearch(searchTerm.toLowerCase())
-}
-
-///// Get latest Btc price on pageload /////
-
-async function getLivePrice() {
-  try {
-    let res = await fetch("https://blockchain.info/ticker");
-    const btcPrice = document.getElementById("live-price")
-
-    if (!res.ok) {
-      throw new Error(`Fetch Error: ${res.status}`);
-    }
-    let priceData = await res.json();
-    // let datetime = new Date();
-    // datetime.toDateString()
-    btcPrice.innerHTML=`Bitcoin-usd: <span class="text-dark mb-0 h5">$${priceData.USD["15m"]}</span>`
-  } catch(e) {
-    console.log(e);
-  }
-}
-
-///// Fetch market overview data on pageload /////
-
-async function getMarketOverview() {
-  await fetch(new Request("https://api.livecoinwatch.com/overview"), {
-    method: "POST",
-    headers: new Headers({
-      "content-type": "application/json",
-      "x-api-key": "8e75c599-768b-4348-ab3c-9d0754b570fd",
-    }),
-    body: JSON.stringify({ currency: "USD" }),
-  })
-  .then(res => res.json())
-  .then(data => {
-    const mcapElement = document.getElementById("total-mcap");
-    const volumeElement = document.getElementById("volume");
-    let mcap = data['cap']/1000000000000;
-    let volume = data['volume']/1000000000;
-
-    mcapElement.innerHTML = `Total Market Cap: <span class="text-dark mb-0 h5">$${mcap.toFixed(3)} trillion</span>`
-    volumeElement.innerHTML = `Daily Volume: <span class="text-dark mb-0 h5">$${volume.toFixed(2)} billion</span>`
-  })
-  .catch(err => console.log(err));
 }
 
 ///// Add coin to watchlist /////
@@ -235,7 +242,7 @@ fetch(urlCoin)
     .then(data => {
       if (data == 400) {
         $('#addCoinModal').modal('hide');
-        console.log(form);
+        // console.log(form);
       } else {      
         $('#addCoinModal').modal('hide');
         getWatchlistCoins(sort=false);
@@ -257,7 +264,7 @@ fetch(urlCoin)
 
 ///// Fetch data and render the coinlist on the site /////
 
-function getData(user_watchlist, order="desc", column="rank") {
+function getData(user_watchlist=[], order="desc", column="rank") {
   const priceList = document.getElementById("price-list")
   const listUpdateTime = document.getElementById("last-updated")
   const userId = document.getElementById("current-user").dataset.userid
@@ -279,10 +286,10 @@ function getData(user_watchlist, order="desc", column="rank") {
 
     const coinData = data.map(token => {
       ////// format numbers and check watchlist for coin
-      token["currentPrice"] = Number(formatNumbers(token.currentPrice))
-      token["high24h"] = Number(formatNumbers(token.high24h))
-      token["low24h"] = Number(formatNumbers(token.low24h))
-      token["percChange24h"] = Number(token.percChange24h).toFixed(2)
+      token["currentPrice"] = Number(formatNumbers(token.currentPrice));
+      token["high24h"] = Number(formatNumbers(token.high24h));
+      token["low24h"] = Number(formatNumbers(token.low24h));
+      token["percChange24h"] = Number(token.percChange24h).toFixed(2);
             
       if (watchlist.includes(token.coinId)) {
         token["watchlisted"] = true;
@@ -367,33 +374,38 @@ function getData(user_watchlist, order="desc", column="rank") {
 function getWatchlistCoins(sort=false) {
 
   const userId = document.getElementById("current-user").dataset.userid
-  let watchlist = `https://satstobits.herokuapp.com/watchlist/${userId}`
-  
-  return new Promise((resolve, reject) => 
-  {
-    //////// Temporary list with user WATCHLIST for checking if a coin is on the watchlist //////////////
-    let user_watchlist = []
-    fetch(watchlist)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(wcoin => {
-          user_watchlist.push(wcoin.coinId);
+  if (userId != "None") {
+    let watchlist = `https://satstobits.herokuapp.com/watchlist/${userId}`
+
+    return new Promise((resolve, reject) => 
+    {
+      //////// Temporary list with user WATCHLIST for checking if a coin is on the watchlist //////////////
+      let user_watchlist = []
+      fetch(watchlist)
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(wcoin => {
+            user_watchlist.push(wcoin.coinId);
+        })
+        return user_watchlist
       })
-      return user_watchlist
-    })
-    .then(uw => {
-      if (sort == true) {
-        // console.log(uw)
-        resolve(uw);
-      } else if (sort == false) {
-        // console.log(uw)
-        getData(uw);
-      } else {
-        reject(Error("It broke"))
-      }
-    })
-    .catch(err => console.log(err)) 
-    })
+      .then(uw => {
+        if (sort == true) {
+          // console.log(uw)
+          resolve(uw);
+        } else if (sort == false) {
+          // console.log(uw)
+          getData(uw);
+        } else {
+          reject(Error("It broke"))
+        }
+      })
+      .catch(err => console.log(err)) 
+      })
+
+  } else {
+    getData()
+  }
 } 
 
 ///// Live search text display /////
@@ -454,9 +466,9 @@ function getCookie(name) {
 
 function formatNumbers(value) {
   if (Number(value) > 0.1) {
-    return Number(value).toFixed(2)
+    return Number(value).toFixed(2);
   } else {
-    return Number(value).toFixed(7)  
+    return Number(value).toFixed(7);  
   }
 }
 
