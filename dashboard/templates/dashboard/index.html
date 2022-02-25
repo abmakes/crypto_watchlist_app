@@ -20,7 +20,9 @@
     <div class="col">
         <div id="chartDiv" style="width: 100%; max-width: 1240px; margin: 0px"></div>
     </div>
-
+    {% if user.is_authenticated %}
+    
+    {% else %}
     <div class="col-md-4 my-3 card text-dark bg-light" style="display: display-block;">
       <div class="row card-body d-flex justify-content-center align-items-center">
         <div class="col text-center align-items-center">
@@ -37,7 +39,7 @@
         </div>
       </div>
     </div>
-
+    {% endif %}
   </div>
 </div>
 
