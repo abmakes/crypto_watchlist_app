@@ -23,6 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchRetry(url, 2)
   })
 
+  $('#chartModal').on('hidden.bs.modal', function () {
+    document.getElementById("chartDivModal").innerHTML = ""
+  });
+
   const fetchRetry = (address, retries) => fetch(address)
   .then(res => {
     /// Retry API if chart data doesnt load

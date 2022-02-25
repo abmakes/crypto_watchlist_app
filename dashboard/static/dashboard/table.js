@@ -339,10 +339,12 @@ function getData(user_watchlist=[], order="desc", column="rank") {
         colour = "text-warning"
       }
 
-      let btnDisplay, chartBtnDisplay = "d-block"
-      if (userId == "None") {
-        btnDisplay = "d-none"
-        chartBtnDisplay = "d-none"
+      let btnDisplay, chartBtnDisplay = "d-none"
+      if (userId !== "None") {
+        btnDisplay = "d-block"
+        if (window.location.toString().includes("watchlist")) {
+          chartBtnDisplay = "d-block"
+        }
       }
 
       coinPrice.innerHTML = `
