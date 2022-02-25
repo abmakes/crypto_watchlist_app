@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   ///// gstatic === low, open, close, high
   ///// Coingecko [1594382400000 (time), 1.1 (open), 2.2 (high), 3.3 (low), 4.4 (close)] /////
+  let chartCoinId = 'bitcoin'
 
   ///// Timeout after window resize to not spam API
   $(window).resize(function() {
@@ -10,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500);
   });
 
-  const url = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=4"
+  let url = `https://api.coingecko.com/api/v3/coins/${chartCoinId}/market_chart?vs_currency=usd&days=7&interval=4`
 
-  const orderedData = []
+  let orderedData = []
 
   const fetchRetry = (address, retries) => fetch(address)
   .then(res => {
@@ -66,14 +67,36 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('chartDiv'));
+    if (chartCoinId == "bitcoin") {
+      var chart = new google.visualization.LineChart(document.getElementById('chartDiv'));
+    } else {
+      var chart = new google.visualization.LineChart(document.getElementById('chartDivModal'))
+    }
 
     chart.draw(data, options);
-
-    //redraw graph when window resize is completed  
-    $(window).on('resizeEnd', function() {
-    drawChart(data, options);
-    });
+    orderedData = []
   }
+
+  ///// on modal click recall function with new coin data
+  // $('.showChart').on('click', function (e) { 
+  //   let cId = e.target.id.slice(3,)
+  // })
+
+  $('#chartModal').on('shown.bs.modal', function (e) {
+    $('#showChart').trigger('focus')
+    const cId = $(e.relatedTarget).data('id').slice(3,)
+    // chartCoinId = "ethereum"
+    // console.log(this);
+    let titleModal = document.getElementById("chart-coin-title")
+    titleModal.innerHTML = `Chart: ${cId}`
+    url = `https://api.coingecko.com/api/v3/coins/${cId}/market_chart?vs_currency=usd&days=7&interval=4`;    
+    fetchRetry(url, 2)
+  })
+
+
+  //redraw graph when window resize is completed  
+  $(window).on('resizeEnd', function() {
+  drawChart(data, options);
+  });
 })
 

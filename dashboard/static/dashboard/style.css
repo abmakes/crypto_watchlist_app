@@ -1,29 +1,27 @@
-#chartDiv {
+#chartDiv, #chartDivModal {
   height: 250px;
 }
 
 @media (min-width: 576px) {
-  #chartDiv {
+  #chartDiv, #chartDivModal {
     height: 300px;
   }
 }
 
 @media (min-width: 768px) { 
-
-  #chartDiv {
+  #chartDiv, #chartDivModal {
     height: 350px;
   }
 }
 
 @media (min-width: 992px) {
-
-  #chartDiv {
+  #chartDiv, #chartDivModal {
     height: 400px;
   }
 }
 
 @media (min-width: 1200px) { 
-  #chartDiv {
+  #chartDiv, #chartDivModal {
     height: 400px;
   }
 }  
