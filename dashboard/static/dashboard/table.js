@@ -339,10 +339,12 @@ function getData(user_watchlist=[], order="desc", column="rank") {
         colour = "text-warning"
       }
 
-      let btnDisplay, chartBtnDisplay = "d-none"
+      let btnDisplay = "d-none";
       if (userId !== "None") {
         btnDisplay = "align-middle"
       }
+
+      let chartBtnDisplay = "d-none";
       if (window.location.toString().includes("watchlist")) {
         chartBtnDisplay = "align-middle"
       }
@@ -363,7 +365,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
             </button>
           </td>
           <td class="${chartBtnDisplay}">
-            <button class="btn btn-sm btn-success showChart" data-toggle="modal" data-target="#chartModal" data-id="ct-${coin.coinId}">Show Chart</button>
+            <button class="btn btn-sm btn-light showChart" data-toggle="modal" data-target="#chartModal" data-id="ct-${coin.coinId}">Show Chart</button>
           </td>
           `;
       

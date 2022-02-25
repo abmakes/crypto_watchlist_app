@@ -4,8 +4,8 @@ from .jobs import fetch_schedule, fetch_coinlist
 
 def startJob():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(fetch_schedule, 'interval', minutes=10)
-    scheduler.add_job(fetch_coinlist, 'interval', hours=6)
+    scheduler.add_job(fetch_schedule, 'interval', minutes=20)
+    scheduler.add_job(fetch_coinlist, 'interval', minutes=5)
 
     try:
       scheduler.start()
