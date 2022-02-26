@@ -91,15 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     chart.draw(data, options);
-    orderedData = []
-  }
+    // orderedData = []
 
-  //redraw graph when window resize is completed  
-  $(window).on('resizeEnd', function() {
-    fetchRetry(url, 2)
-
+    //redraw graph when window resize is completed  
+    $(window).on('resizeEnd', function() {
     var data = google.visualization.arrayToDataTable(orderedData, true);
     drawChart(data, options);
     });
+  }
+
 })
 
