@@ -36,7 +36,7 @@ def fetch_coinlist():
 
   # print(top300list)
   coinlist = CoinListJson.objects.all()
-  CoinlistJson.objects.create(coins = top300list)
+  CoinListJson.objects.create(coins = top300list)
   coinlist[0].delete()
 
 
