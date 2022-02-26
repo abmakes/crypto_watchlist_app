@@ -35,7 +35,13 @@ def fetch_coinlist():
     top300list[coin["id"]] = coin["name"]
 
   # print(top300list)
-  CoinListJson.objects.update_or_create(coins = top300list)
+  coinlist = CoinListJson.objects.all()
+  CoinlistJson.objects.create(coins = top300list)
+  coinlist[0].delete()
+
+
+
+
 
   
 def fetch_schedule():
