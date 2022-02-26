@@ -1,15 +1,8 @@
 import requests
 from django.utils import timezone
 from django.conf import settings
-from dashboard.models import BtcPrice, CoinListJson, Coin
-import json, random
+from dashboard.models import CoinListJson, Coin
 
-# def update_coinlist(request, topcoinlist):
-#   if request.method == "POST":
-#     coinList = CoinList.objects.get(pk=1)
-#     coinList = topcoinlist
-#     coinList.save()
-#   print("list updated")
 
 ##### Update/add coin on the the database with new prices
 
@@ -17,8 +10,7 @@ def coinUpdateOrCreate(coin):
     newValues = {"marketCapRank":coin["market_cap_rank"], "currentPrice":coin["current_price"], "high24h":coin["high_24h"], "low24h":coin["low_24h"], "priceChangePercentage24h":coin["price_change_percentage_24h"], "lastUpdate":timezone.now} 
 
     Coin.objects.update_or_create(coinId=coin["id"], coinName=coin["name"], image=coin["image"], defaults=newValues)
-    # coinName = coin["name"]
-    # print(f"{coinName} updated")
+
 
 
 ##### GET LIST OF ALL COINS ON COINGECKO ######
@@ -34,13 +26,9 @@ def fetch_coinlist():
   for coin in top300data:
     top300list[coin["id"]] = coin["name"]
 
-  # print(top300list)
   coinlist = CoinListJson.objects.all()
   CoinListJson.objects.create(coins = top300list)
   coinlist[0].delete()
-
-
-
 
 
   

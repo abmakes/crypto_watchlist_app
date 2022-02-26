@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  ///// gstatic === low, open, close, high
-  ///// Coingecko [1594382400000 (time), 1.1 (open), 2.2 (high), 3.3 (low), 4.4 (close)] /////
 
   ///// Timeout after window resize to not spam API
   $(window).resize(function() {
@@ -12,14 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let orderedData = []
 
+  ///// Chart modals that fetches data based on coin clicked
   $('#chartModal').on('shown.bs.modal', function (e) {
     $('#showChart').trigger('focus')
+
     let chartCoinId = $(e.relatedTarget).data('id').slice(3,)
-    // chartCoinId = "ethereum"
-    // console.log(this);
     let titleModal = document.getElementById("chart-coin-title")
     titleModal.innerHTML = `Chart: ${chartCoinId}`
     let url = `https://api.coingecko.com/api/v3/coins/${chartCoinId}/market_chart?vs_currency=usd&days=7&interval=4`;    
+
     fetchRetry(url, 2)
   })
 
@@ -55,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   .catch(error => console.log(error));
 
+  ///// Change what chart displays based on page.
   if (window.location.toString().includes("watchlist")) {
     console.log("no chart");
   } else { 
@@ -65,9 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function drawChart() {
     var data = google.visualization.arrayToDataTable(orderedData, true);
 
+    //// Display setting for chart
     var options = {
       legend:'none',
-      // enableInteractivity: false,
       seriesType: 'line',
       colors: ['#fdf6e3'],
       chartArea:{left:50, right:20, width:'100%', height:'70%'},
@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     };
 
+    //// Where to draw the chart based on page
     if (window.location.toString().includes("watchlist")) {
       var chart = new google.visualization.LineChart(document.getElementById('chartDivModal'))
     } else {
@@ -97,13 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     drawChart(data, options);
     });
   }
-
-  ///// on modal click recall function with new coin data
-  // $('.showChart').on('click', function (e) { 
-  //   let cId = e.target.id.slice(3,)
-  // })
-
-
 
 })
 

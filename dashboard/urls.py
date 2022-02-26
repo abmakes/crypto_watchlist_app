@@ -10,7 +10,6 @@ urlpatterns = [
 
     #### API routes ####
     path('coins', views.coin_prices, name="coin-prices"),
-    path("updatebtc/<int:price>", views.btc_update, name="btc-update"),
     path('coinlist', views.coin_list, name="coin-list"),
     path('watchlist/<int:id>', views.user_watchlist, name="user-watchlist"),
     path('watchlist/<int:id>/<str:coinId>', views.add_to_watchlist, name="add-to-watchlist"),

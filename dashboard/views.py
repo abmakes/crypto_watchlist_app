@@ -5,10 +5,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import CoinListJson, NewCoin, User, Coin, Watchlist, BtcPrice
+from .models import CoinListJson, NewCoin, User, Coin, Watchlist
 
 # Create your views here.
 
@@ -25,9 +24,6 @@ def watchlist(request):
       form.save()
       return HttpResponse("202")
     else:
-      # context = {
-      # "form": form,
-      # }
       return HttpResponse("400")
 
   elif request.method == "GET":
@@ -94,21 +90,6 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "dashboard/register.html")
-
-
-
-### BTC Price 
-@csrf_exempt
-def btc_update(request, price):
-    if request.method == "POST":
-      btc = BtcPrice.objects.get(pk=1)
-      if len(btc.price) == 10:
-        btc.price.pop(0) 
-        btc.price.append(price)
-      else:
-        btc.price.append(price)
-      btc.save()
-      return HttpResponse("200")
 
 
 ### API views ###

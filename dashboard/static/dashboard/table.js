@@ -90,7 +90,7 @@ async function sortCoins(colId) {
     if (col.childElementCount > 0) {
       col.removeChild(col.lastChild)
     }
-    // console.log(dir, colId, name)
+
     getData(watchlist, order="desc", column=name)
     col.dataset.direction = "desc"
     col.className = "th sortable text-light"
@@ -101,24 +101,12 @@ async function sortCoins(colId) {
 }
 
 
-function showOption(e) {
-  const searchTerm = e.target.value;
-  showSearch(searchTerm.toLowerCase())
-}
-
 ///// Add coin to watchlist /////
 
 function addToWatchlist(id) {
   const clickedId = id.slice(3,)
   const userId = document.getElementById("current-user").dataset.userid
   const csrftoken = getCookie('csrftoken');
-
-  console.log(clickedId, userId)
-  // if (list.includes(clickedId)) {
-  //   console.log(clickedId);
-  // } else {
-  //   console.log("not clicked");
-  // }
 
   fetch(`/watchlist/${userId}/${clickedId}`, {
     method: 'PUT',
@@ -127,18 +115,12 @@ function addToWatchlist(id) {
   })
   .then(res => res.json())
   .then(data => {
-    // console.log(data);
+
     getWatchlistCoins(sort=false);
 
-    // if (data.text == "liked") {
-    //   document.querySelector(`#like_${post_id}`).textContent = 'Unlike'
-    //   likes.textContent = data.likes
-    // } else {
-    //   document.querySelector(`#like_${post_id}`).textContent = 'Like'
-    //   likes.textContent = data.likes
-    // }
   })
 }
+
 
 ///// Fetch and update list of coins on Coingecko /////
 
@@ -162,7 +144,6 @@ function getCoinInfo(coinId) {
         return dbCoinList
       })
       .then(list => {
-        // console.log(list)
 
         if (!list.includes(coinId)) {
           //// if new coin get coinId and add to DB
@@ -176,7 +157,7 @@ function getCoinInfo(coinId) {
               }
               else return false;
             })
-            // resolve(console.log(200));
+
           })
           .catch(err => console.log(err))
         } else {
@@ -191,6 +172,7 @@ function getCoinInfo(coinId) {
 
 }
 
+
 ///// ONCLICK //// Fetch new coin data, display in the modal and add to DB on MODAL close ////
 
 function addCoinToDb(coinId) {
@@ -202,7 +184,7 @@ fetch(urlCoin)
 .then(res => res.json())
 .then(data => {
   const modalText = document.getElementById("addCoinDataCheck");
-  // const searchOptions = document.getElementById("results");
+
   modalSubmit.style.display = "display-box";
 
   modalText.innerHTML = `
@@ -242,7 +224,6 @@ fetch(urlCoin)
     .then(data => {
       if (data == 400) {
         $('#addCoinModal').modal('hide');
-        // console.log(form);
       } else {      
         $('#addCoinModal').modal('hide');
         getWatchlistCoins(sort=false);
@@ -253,14 +234,12 @@ fetch(urlCoin)
   });
 
   modalSubmit.style.display = "display-box";
-  // for(var pair of form.entries()) {
-  //   console.log(pair[0]+ ', '+ pair[1]);
-  // }
 
 })
 .catch(err => console.log(err))
 
 }
+
 
 ///// Fetch data and render the coinlist on the site /////
 
@@ -284,6 +263,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
   .then(res => res.json())
   .then(data => {
 
+    ///// Create new array of formated data and watchlist info
     const coinData = data.map(token => {
       ////// format numbers and check watchlist for coin
       token["currentPrice"] = Number(formatNumbers(token.currentPrice));
@@ -299,7 +279,6 @@ function getData(user_watchlist=[], order="desc", column="rank") {
       return token
     })
     
-
     ///// sort data as per column, tirgger by click /////
     if (column == "percChange24h") {
       //// sort negative numbers
@@ -329,6 +308,7 @@ function getData(user_watchlist=[], order="desc", column="rank") {
       coinPrice = document.createElement('tr');
       coinPrice.id = coin.coinId;
 
+      ///// Conditional formatting for table items
       let buttonColor = "btn-outline-success";
       if (coin.watchlisted) {
         buttonColor = "btn-success";
@@ -369,13 +349,6 @@ function getData(user_watchlist=[], order="desc", column="rank") {
           </td>
           `;
       
-      // coinPrice.querySelector(".btn").addEventListener("click", addToWatchlist)
-
-      // if (coin.percChange24h <= 0) {
-      //   coinPrice.classList.add("text-warning");
-      // } else {
-      //   coinPrice.classList.add("text-success");
-      // }
       priceList.appendChild(coinPrice)
     })
   })
@@ -423,6 +396,12 @@ function getWatchlistCoins(sort=false) {
 
 ///// Live search text display /////
 
+function showOption(e) {
+  const searchTerm = e.target.value;
+  showSearch(searchTerm.toLowerCase())
+}
+
+
 function showSearch(searched) {
   const coinlist = "https://satstobits.herokuapp.com/coinlist"
   coinMenu = document.getElementById("results");
@@ -437,7 +416,6 @@ function showSearch(searched) {
   .then(res => res.json())
   .then(data => {
     const data1 = data[0].coin
-    // Object.entries(data1).sort();
     const typed = search
 
     Object.entries(data1).forEach(coin => {
@@ -445,7 +423,6 @@ function showSearch(searched) {
         resultList[coin[0]] = coin[1];
       }
     })
-    // console.log(resultList)
 
     Object.entries(resultList).forEach(res => {
       coinOption = document.createElement('option');
@@ -475,7 +452,7 @@ function getCookie(name) {
   return cookieValue;
 }
 
-// 
+///// Format numbers into more display friendly format
 
 function formatNumbers(value) {
   if (Number(value) > 0.1) {

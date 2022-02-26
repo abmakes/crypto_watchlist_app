@@ -13,17 +13,6 @@
   </div>
 </div>
 
-<!-- Chart  -->
-{% comment %} <div class="container flex-d">
-  <div class="row h-50 mw-900" style="height: 400px;">  
-
-    <div class="col">
-        <div id="chartDiv" style="width: 100%; max-width: 1240px; margin: 0px"></div>
-    </div>
-
-  </div>
-</div> {% endcomment %}
-
   <!-- Modal -->
   {% if user.is_authenticated %}
   <div class="modal fade" id="addCoinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -90,7 +79,6 @@
 
   <div class="row">    
     <span class="text-secondary float-right mb-1 px-3 ml-auto small" id="last-updated"></span>
-    {% comment %} <button type="button" class="btn btn-success showChart" data-toggle="modal" data-target="#chartModal" data-id="ct-ethereum">Show Chart</button> {% endcomment %}
     <div class="table-responsive">
     
       <!-- table headings --> 

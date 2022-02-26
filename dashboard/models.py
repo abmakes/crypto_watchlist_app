@@ -1,9 +1,7 @@
 from django.contrib.auth.models import AbstractUser
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.forms import ModelForm
-import numpy as np
 
 # Create your models here.
 class User(AbstractUser):
@@ -52,12 +50,6 @@ class Watchlist(models.Model):
       "user_id": self.user_id,
       "coin_id": self.coin_id,
     }
-
-class BtcPrice(models.Model):
-  price = ArrayField(models.IntegerField())   
-
-  def __str__(self):
-      return f"{self.price}" 
 
 class CoinListJson(models.Model):
   coins = models.JSONField()
