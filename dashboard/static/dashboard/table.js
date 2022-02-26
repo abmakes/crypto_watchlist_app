@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
   } 
 
   // getWatchlistCoins(sort=false);
-  sortCoins()
+  sortCoins(0)
   getMarketOverview();
   getLivePrice();
 });
