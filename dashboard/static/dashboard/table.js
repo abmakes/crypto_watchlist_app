@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("addCoin").addEventListener("click", addCoinToDb);
   } 
 
-  // getWatchlistCoins(sort=false);
   sortCoins(0)
   getMarketOverview();
   getLivePrice();
