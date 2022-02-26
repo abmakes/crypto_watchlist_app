@@ -390,7 +390,8 @@ function getWatchlistCoins(sort=false) {
       })
 
   } else {
-    getData()
+    let emptyWatchlist = []
+    return Promise.resolve(emptyWatchlist)
   }
 } 
 
