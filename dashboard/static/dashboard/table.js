@@ -179,7 +179,6 @@ function getCoinInfo(coinId) {
 function addCoinToDb(coinId) {
 
 const modalSubmit = document.getElementById("submitCoin");
-modalSubmit.style.display = "display-box";
 const urlCoin = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}&order=market_cap_desc&per_page=100&page=1`
 
 fetch(urlCoin)
@@ -187,7 +186,7 @@ fetch(urlCoin)
 .then(data => {
   const modalText = document.getElementById("addCoinDataCheck");
 
-  modalSubmit.style.display = "display-box";
+  modalSubmit.style.display = "block";
 
   modalText.innerHTML = `
   <p>Token information:</p> 
