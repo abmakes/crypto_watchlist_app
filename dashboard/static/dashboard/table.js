@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
   $('#addCoinModal').on('shown.bs.modal', function () {
     $('#addCoin').trigger('focus')
     const coinId = document.getElementById("coinSearch").value
+    const modalSubmit = document.getElementById("submitCoin");
+    modalSubmit.style.display = "display-box";
     getCoinInfo(coinId)
   })
 
