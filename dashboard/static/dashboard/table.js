@@ -3,8 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
   $('#addCoinModal').on('shown.bs.modal', function () {
     $('#addCoin').trigger('focus')
     const coinId = document.getElementById("coinSearch").value
-    const modalSubmit = document.getElementById("submitCoin");
-    modalSubmit.style.display = "display-box";
+
     getCoinInfo(coinId)
   })
 
@@ -180,6 +179,7 @@ function getCoinInfo(coinId) {
 function addCoinToDb(coinId) {
 
 const modalSubmit = document.getElementById("submitCoin");
+modalSubmit.style.display = "display-box";
 const urlCoin = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}&order=market_cap_desc&per_page=100&page=1`
 
 fetch(urlCoin)
