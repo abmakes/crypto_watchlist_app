@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     titleModal.innerHTML = `Chart: ${chartCoinId}`
     let url = `https://api.coingecko.com/api/v3/coins/${chartCoinId}/market_chart?vs_currency=usd&days=7&interval=4`;    
 
-    setTimeout(() => fetchRetry(url, 2), 500)
+    setTimeout(() => fetchRetry(url, 2), 200)
   })
 
   $('#chartModal').on('hidden.bs.modal', function () {
