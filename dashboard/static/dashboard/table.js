@@ -186,7 +186,7 @@ fetch(urlCoin)
 .then(data => {
   const modalText = document.getElementById("addCoinDataCheck");
 
-  modalSubmit.style.display = "block";
+  modalSubmit.style.display = "display-block";
 
   modalText.innerHTML = `
   <p>Token information:</p> 
