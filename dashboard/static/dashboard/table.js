@@ -129,7 +129,7 @@ function getCoinInfo(coinId) {
   const coinlist = "https://satstobits.herokuapp.com/coinlist"
   const modalText = document.getElementById("addCoinDataCheck");
   const modalSubmit = document.getElementById("submitCoin");
-  modalSubmit.style.display = "display-box";
+  modalSubmit.style.display = "block";
 
   return new Promise((resolve, reject) => 
     {
@@ -186,8 +186,6 @@ fetch(urlCoin)
 .then(data => {
   const modalText = document.getElementById("addCoinDataCheck");
 
-  modalSubmit.style.display = "display-block";
-
   modalText.innerHTML = `
   <p>Token information:</p> 
   <ul>
@@ -234,7 +232,7 @@ fetch(urlCoin)
     .catch(err => console.log(err))
   });
 
-  modalSubmit.style.display = "display-box";
+  modalSubmit.style.display = "block";
 
 })
 .catch(err => console.log(err))
