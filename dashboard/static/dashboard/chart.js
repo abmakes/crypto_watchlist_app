@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const fetchRetry = (address, retries) => fetch(address)
   .then(res => {
+    //// Reset chart data
+    orderedData = []
     /// Retry API if chart data doesnt load
     if (res.ok) {
       // Load the Visualization API and the piechart package.
