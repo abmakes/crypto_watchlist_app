@@ -31,10 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /// Retry API if chart data doesnt load
     if (res.ok) {
-      // Load the Visualization API and the piechart package.
-      google.charts.load('current', {'packages':['corechart']});
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
       return res.json();
     }
     if (retries > 0) {
@@ -54,6 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
       orderedData.push(item);
     });
 
+    // Load the Visualization API and the piechart package.
+    google.charts.load('current', {'packages':['corechart']});
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
   })
   .catch(error => console.log(error));
 
