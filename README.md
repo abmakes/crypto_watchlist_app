@@ -72,3 +72,7 @@ settings.py - Adjusted settings for PostgreSQL, heroku and decoupling sensitive 
 #### How to run your application
 
 The app is running at: https://satstobits.herokuapp.com/ 
+
+#### Demo account:
+Username: Tom
+Password: Tom123456!
